@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="theme-color" content="#1d2733" />
+    <title>הבית של שירן וינון · הדמיה תלת־ממדית</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><path d='M8 30 32 10l24 20v24H8z' fill='%23e9dcc0'/><path d='M26 54V38h12v16' fill='%23c4734a'/></svg>" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700&family=Frank+Ruhl+Libre:wght@500;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="./src/style.css" />
+  </head>
+  <body>
+    <div id="app"></div>
+
+    <!-- splash -->
+    <div id="splash">
+      <div class="splash-bg"></div>
+      <div class="splash-card">
+        <div class="splash-kicker">הדמיה תלת־ממדית</div>
+        <h1>הבית של <span>שירן וינון</span></h1>
+        <p class="splash-sub">שתי קומות באבן ירושלמית, מטבח פתוח לסלון ופטיו מרוצף תחת פרגולה.<br />מבוסס על תוכנית הבית בקנה מידה 1:50.</p>
+        <div class="progress"><div id="progress-bar"></div></div>
+        <div id="progress-label">טוען חומרים…</div>
+        <button id="enter" disabled>כניסה לבית</button>
+        <div class="splash-love">באהבה, רמי ♥</div>
+      </div>
+    </div>
+
+    <!-- HUD -->
+    <div id="hud" class="hidden">
+      <header class="topbar">
+        <div class="brand">
+          <div class="brand-title">הבית של שירן וינון</div>
+          <div class="brand-sub" id="brand-sub">מבט חיצוני</div>
+        </div>
+        <div class="top-actions">
+          <button class="icon-btn" id="btn-help" title="עזרה">?</button>
+          <button class="icon-btn" id="btn-quality" title="איכות גרפיקה">HD</button>
+          <button class="icon-btn" id="btn-full" title="מסך מלא">⤢</button>
+        </div>
+      </header>
+
+      <div class="dock">
+        <div class="time-row">
+          <span class="time-icon" id="time-icon">☀</span>
+          <input type="range" id="time" min="5" max="22" step="0.05" value="15.5" />
+          <span class="time-label" id="time-label">15:30</span>
+          <div class="seg seg-small" id="season-seg">
+            <button data-season="today" class="on">היום</button>
+            <button data-season="summer">קיץ</button>
+            <button data-season="winter">חורף</button>
+          </div>
+        </div>
+        <div class="dock-row">
+          <div class="seg" id="mode-seg">
+            <button data-mode="orbit" class="on">מבט חיצוני</button>
+            <button data-mode="walk">סיור בבית</button>
+          </div>
+          <div class="seg" id="floor-seg">
+            <button data-floor="all" class="on">הכל</button>
+            <button data-floor="upper">קומה שנייה</button>
+            <button data-floor="ground">קומת קרקע</button>
+          </div>
+          <button class="menu-btn toggle on hidden" id="btn-noclip" title="מעבר דרך קירות ורהיטים">👻 מעבר דרך קירות</button>
+          <div class="menu-wrap">
+            <button class="menu-btn" id="btn-rooms">חדרים ▾</button>
+            <div class="menu" id="menu-rooms"></div>
+          </div>
+          <div class="menu-wrap">
+            <button class="menu-btn" id="btn-views">נקודות מבט ▾</button>
+            <div class="menu" id="menu-views"></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="walk-hint" class="hint hidden"></div>
+      <canvas id="minimap" class="hidden" width="240" height="240"></canvas>
+      <div id="room-card" class="room-card hidden"></div>
+    </div>
+
+    <div id="help" class="modal hidden">
+      <div class="modal-card">
+        <h2>איך מסתובבים בבית?</h2>
+        <ul>
+          <li><b>מבט חיצוני:</b> גררו כדי לסובב, גלגלת/צביטה לזום, קליק ימני או שתי אצבעות להזזה.</li>
+          <li><b>קומות:</b> "קומת קרקע" ו"קומה שנייה" מסירים את הגג ומראים את הקומה מלמעלה, כמו בית בובות.</li>
+          <li><b>סיור בבית:</b> במחשב – קליק על המסך, ואז W A S D או החצים להליכה והעכבר להסתכלות. Shift לריצה, Esc ליציאה. כפתור ״מעבר דרך קירות״ מאפשר לעבור דרך קירות ורהיטים. מהמבואה בקומה השנייה אפשר לצאת לגג.<br />בטלפון – ג׳ויסטיק בצד שמאל של המסך, וגרירה בצד ימין להסתכלות.</li>
+          <li><b>שעה ביום:</b> הסליידר מזיז את השמש לפי המיקום האמיתי של השמש מעל הרי ירושלים. אחרי השקיעה האורות בבית נדלקים.</li>
+          <li><b>חדרים:</b> בחרו חדר מהתפריט כדי לעוף אליו (או להשתגר אליו בזמן סיור).</li>
+        </ul>
+        <button class="close" id="help-close">הבנתי</button>
+      </div>
+    </div>
+
+    <script type="module" src="./src/main.js"></script>
+  </body>
+</html>
